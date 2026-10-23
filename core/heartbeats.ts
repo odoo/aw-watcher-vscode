@@ -52,15 +52,15 @@ export class Heartbeats {
         });
     }
 
-    // Ends the current event now
-    public close(): Promise<void> {
+    // Ends the current event now, or at `end` if it is known to have ended earlier
+    public close(end?: Date): Promise<void> {
         return this._enqueue(async () => {
             if (!this._last) {
                 return;
             }
             const last = this._last;
             this._last = undefined;
-            const now = this._now();
+            const now = end ?? this._now();
             await this._send(last, new Date(now.getTime() - 1));
             await this._send({ ...last, focused: false }, now);
         });

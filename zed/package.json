@@ -1,0 +1,27 @@
+{
+    "name": "aw-watcher-zed-odoo",
+    "version": "0.1.0",
+    "description": "Language server of the ActivityWatch watcher for Zed (Odoo): time spent per Git branch.",
+    "license": "MPL-2.0",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/odoo/aw-watcher-vscode",
+        "directory": "zed"
+    },
+    "main": "dist/server.js",
+    "files": [
+        "dist/server.js"
+    ],
+    "engines": {
+        "node": ">=18"
+    },
+    "scripts": {
+        "build": "tsc -p . && esbuild server.ts --bundle --platform=node --target=node18 --outfile=dist/server.js",
+        "prepack": "npm run build"
+    },
+    "devDependencies": {
+        "esbuild": "^0.25.12",
+        "typescript": "~5.6",
+        "vscode-languageserver": "^9.0.1"
+    }
+}

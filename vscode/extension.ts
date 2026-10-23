@@ -1,17 +1,14 @@
-import { hostname } from 'os';
-import { AWClient } from 'aw-client';
 import { ExtensionContext, LogOutputChannel, Uri, extensions, window } from 'vscode';
+import { awSender } from '../core/client';
+import { Data, Heartbeats } from '../core/heartbeats';
+import { pickRemote, repositoryName } from '../core/remote';
 import { API as GitAPI, GitExtension, Repository as GitRepository } from './git';
-import { Data, Heartbeats } from './heartbeats';
-import { pickRemote, repositoryName } from './remote';
 
 // Not `app.editor.activity`: aw-webui expects `file`, `language` and `project` in
 // those events, and this watcher records the repository and branch, not the file
 const CLIENT_NAME = 'aw-watcher-vscode-odoo';
-const BUCKET_ID = `${CLIENT_NAME}_${hostname()}`;
 const EVENT_TYPE = 'app.vscode.activity';
 const INTERVAL_MS = 60 * 1000;
-const PULSETIME_S = 80;
 
 let heartbeats: Heartbeats | undefined;
 
@@ -19,22 +16,7 @@ export async function activate(context: ExtensionContext) {
     const log = window.createOutputChannel('ActivityWatch', { log: true });
     context.subscriptions.push(log);
 
-    const client = new AWClient(CLIENT_NAME);
-    let bucketReady = false;
-    heartbeats = new Heartbeats(async (data, timestamp) => {
-        try {
-            if (!bucketReady) {
-                await client.ensureBucket(BUCKET_ID, EVENT_TYPE, hostname());
-                bucketReady = true;
-            }
-            await client.heartbeat(BUCKET_ID, PULSETIME_S, { timestamp, duration: 0, data });
-            log.debug('heartbeat', timestamp.toISOString(), JSON.stringify(data));
-        } catch (err) {
-            // The server may be down or restarted (bucket gone): retry everything next time
-            bucketReady = false;
-            log.warn(`heartbeat failed: ${err instanceof Error ? err.message : String(err)}`);
-        }
-    });
+    heartbeats = new Heartbeats(awSender(CLIENT_NAME, EVENT_TYPE, log));
 
     const git = await getGitApi(log);
     const repositories = new RepositoryTracker(git);

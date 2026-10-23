@@ -83,6 +83,14 @@ describe('Heartbeats', () => {
         assert.deepStrictEqual(sent.slice(3), ['300s saas-19.2-foo']);
     });
 
+    it('closes the event at the given end', async () => {
+        const { heartbeats, sent, at } = setup();
+        await heartbeats.beat(d('saas-19.2-foo'));
+        at(120);
+        await heartbeats.close(new Date(Date.parse('2026-10-01T10:00:00Z') + 60 * 1000));
+        assert.deepStrictEqual(sent, ['0s saas-19.2-foo', '59.999s saas-19.2-foo', '60s saas-19.2-foo focused=false']);
+    });
+
     it('does nothing when focus is lost twice', async () => {
         const { heartbeats, sent } = setup();
         await heartbeats.close();

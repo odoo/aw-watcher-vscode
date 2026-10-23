@@ -1,7 +1,8 @@
-src/**
-out/test/**
-out/**/*.map
-tsconfig.json
-.gitignore
-*.vsix
-e2e/**
+# Only the VS Code extension is packaged: the other editors have their own folder
+**
+!package.json
+!README.md
+!LICENSE
+!out/core/*.js
+!out/vscode/*.js
+!node_modules/**

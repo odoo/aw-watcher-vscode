@@ -51,6 +51,11 @@ heartbeat).
 
 ## Development
 
+- `core/`: the code shared by all editors: the heartbeat model, the repository name of
+  remotes and the ActivityWatch client.
+- `vscode/`: the VS Code extension, which tells the core when VS Code is focused and in
+  which repository and branch.
+
 ```sh
 npm install
 npm test          # unit tests of the heartbeat model

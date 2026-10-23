@@ -1,0 +1,9 @@
+{
+    // Type checking only: esbuild bundles server.ts with ../core into dist/server.js
+    "extends": "../tsconfig.json",
+    "compilerOptions": {
+        "rootDir": "..",
+        "noEmit": true
+    },
+    "include": ["server.ts"]
+}

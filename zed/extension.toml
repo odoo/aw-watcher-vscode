@@ -1,0 +1,71 @@
+id = "aw-watcher-odoo"
+name = "ActivityWatch watcher (Odoo)"
+description = "Tracks the time spent in Zed per Git branch for ActivityWatch, the same way as the Odoo VS Code and web watchers."
+version = "0.1.0"
+schema_version = 1
+authors = ["Abderraouf Ghrissi (abgh) <abgh@odoo.com>"]
+repository = "https://github.com/odoo/aw-watcher-vscode"
+
+# Zed starts a language server only for files of the languages it is registered for
+[language_servers.aw-watcher-odoo]
+name = "ActivityWatch"
+languages = [
+    "AsciiDoc",
+    "Astro",
+    "Bash",
+    "Biome",
+    "Blade",
+    "C",
+    "C++",
+    "Clojure",
+    "CSharp",
+    "CSS",
+    "CSV",
+    "D",
+    "Dart",
+    "Elixir",
+    "Elm",
+    "Erlang",
+    "Fish",
+    "FSharp",
+    "GDScript",
+    "Gleam",
+    "Go",
+    "GraphQL",
+    "Haskell",
+    "HEEX",
+    "HTML",
+    "Hy",
+    "Idris",
+    "Java",
+    "JavaScript",
+    "JSON",
+    "JSONC",
+    "Julia",
+    "Kotlin",
+    "Lua",
+    "Markdown",
+    "Nim",
+    "Nix",
+    "OCaml",
+    "PHP",
+    "PureScript",
+    "Python",
+    "Racket",
+    "Roc",
+    "Ruby",
+    "Rust",
+    "Scheme",
+    "SCSS",
+    "Shell Script",
+    "SQL",
+    "Swift",
+    "TOML",
+    "TSX",
+    "TypeScript",
+    "Vue.js",
+    "WIT",
+    "XML",
+    "YAML",
+    "Zig",
+]
